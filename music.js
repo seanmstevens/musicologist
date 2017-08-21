@@ -29,8 +29,18 @@ function renderList() {
   }
 }
 
-$('#getPlaylistBtn').click(function (event) {
-  // TODO: Display a list of music.
-  // You may use anything from musicInfo.
+$('#getPlaylistBtn').click(function(event) {
+  $.ajax({
+      url: 'https://itunes.apple.com/search?term=mountain+goats&limit=20',
+      dataType: 'json'
+  }).then(function(resp) {
+      let results = resp.results;
+      $.each(results, function(key, value) {
+            console.log('Artist: ' + value.artistName, 'Track: ' + value.trackName);
+            $('#musicQueryResults').append('<p class="h5">' + value.artistName + ': ' + value.trackName + '</p>')
+      });
+  }).catch(function(err) {
+      console.error('Error:', err);
+  });
   console.log('Testing Music Call');
 });
