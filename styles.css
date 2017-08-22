@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+.section {
+    text-align: center;
+}
+
+.list-group-item {
+    font-family: "Raleway", sans-serif;
+    position: relative;
+    padding: 1.2rem 2rem;
+    display: inline-block;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    margin: 8px 16px;
+}
+
+.close-btn {
+    position: relative;
+    top: 4px;
+    font-size: 3rem;
+    margin: 0 0 0 10px;
+    color: #a9a9a9;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #848484;
+}

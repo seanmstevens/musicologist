@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>My Musicologist</title>
         <link rel="stylesheet" href="skeleton.css">
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <div>
@@ -16,34 +17,26 @@
                     </div>
                 </div>
             </nav>
-            <div class="container">
+            <div class="container section">
                 <div class="row">
-                    <div class="twelve columns">
-                    </div>
-                    <div class="twelve columns">
-                        <div class="row">
-                            <div class="col col-xs-12">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="musicField" placeholder="Song Name, Artist...">
-                                    <span class="input-group-btn">
-                                        <button id="addButton" class="button" type="button">Add!</button>
-                                    </span>
-                                </div>
-                            </div>
+                    <h1>My Music Interests</h1>
+                </div>
+                <div class="row">
+                    <div class="container">
+                        <div class="eight offset-by-one columns">
+                            <input type="text" class="u-full-width" id="musicField" placeholder="Song Name, Artist...">
                         </div>
-                        <div class="row">
-                            <h1>My Music Interests</h1>
+                        <div class="two columns">
+                            <button id="addButton" class="button" type="button">Add</button>
                         </div>
-                        <div class="row">
-                            <ul class="list-group info">
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col col-md-2 hidden-sm hidden-xs">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col col-xs-12 text-center">
+                    <ul class="list-group info">
+                    </ul>
+                </div>
+                <div class="row">
+                    <div>
                         <button id="getPlaylistBtn" class="button-primary">Get Playlist</button>
                     </div>
                 </div>

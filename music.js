@@ -1,9 +1,9 @@
-const musicInfo = [];
+let musicInfo = [];
 
 function addSongFromField(event) {
   event.preventDefault();
 
-  const info = $('#musicField').eq(0).val();
+  const info = $('#musicField').val().replace(/ /g, '+').toLowerCase();
 
   musicInfo.push(info);
   renderList();
@@ -18,19 +18,21 @@ $('#musicField').keyup(function(event) {
 });
 
 function renderList() {
-  const $list = $('.info').eq(0);
+    const $list = $('.info').eq(0);
 
-  $list.empty();
+    $list.empty();
 
-  for (const info of musicInfo) {
-    const $item = $('<li class="list-group-item">').text(info);
+    for (let info of musicInfo) {
+        info = info.replace(/\+/g, ' ');
+        const $item = $('<li class="list-group-item">').text(info);
+        $item.append('<span class="close-btn">&times</span>')
 
-    $list.append($item)
-  }
+        $list.append($item)
+    }
 }
 
 $('#getPlaylistBtn').click(function(event) {
-    let searchTerm = $('#musicField').val().replace(/ /g, '+').toLowerCase();
+    let searchTerm = musicInfo.join('+');
     console.log(searchTerm);
 
     $('#musicQueryResults').empty();
@@ -40,12 +42,25 @@ $('#getPlaylistBtn').click(function(event) {
         dataType: 'json'
     }).then(function(resp) {
         let results = resp.results;
+        console.log(results);
+        if (results.length === 0) {
+            $('#musicQueryResults').append('<h3>No Results Found</h3>');
+        }
         $.each(results, function(key, value) {
-            console.log('Artist: ' + value.artistName, 'Track: ' + value.trackName);
-            $('#musicQueryResults').append('<p class="h5">' + value.artistName + ': ' + value.trackName + '</p>')
+            $('#musicQueryResults').append('<p class="h5">' + value.artistName + ' -  ' + value.trackName + '</p>');
         });
     }).catch(function(err) {
         console.error('Error:', err);
     });
-    console.log('Testing Music Call');
 });
+
+$(document.body).on({click: function() {
+        const info = $(this).parent().contents().filter(function() {
+            return this.nodeType == 3;
+        })[0].nodeValue.replace(/ /g, '+');
+        musicInfo = $.grep(musicInfo, function(value) {
+            return value != info;
+        });
+        renderList();
+    }
+}, '.close-btn');
