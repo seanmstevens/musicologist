@@ -30,17 +30,22 @@ function renderList() {
 }
 
 $('#getPlaylistBtn').click(function(event) {
-  $.ajax({
-      url: 'https://itunes.apple.com/search?term=mountain+goats&limit=20',
-      dataType: 'json'
-  }).then(function(resp) {
-      let results = resp.results;
-      $.each(results, function(key, value) {
+    let searchTerm = $('#musicField').val().replace(/ /g, '+').toLowerCase();
+    console.log(searchTerm);
+
+    $('#musicQueryResults').empty();
+
+    $.ajax({
+        url: 'https://itunes.apple.com/search?term=' + searchTerm + '&limit=20',
+        dataType: 'json'
+    }).then(function(resp) {
+        let results = resp.results;
+        $.each(results, function(key, value) {
             console.log('Artist: ' + value.artistName, 'Track: ' + value.trackName);
             $('#musicQueryResults').append('<p class="h5">' + value.artistName + ': ' + value.trackName + '</p>')
-      });
-  }).catch(function(err) {
-      console.error('Error:', err);
-  });
-  console.log('Testing Music Call');
+        });
+    }).catch(function(err) {
+        console.error('Error:', err);
+    });
+    console.log('Testing Music Call');
 });
