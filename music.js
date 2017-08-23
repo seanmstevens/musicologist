@@ -25,7 +25,7 @@ function renderList() {
     for (let info of musicInfo) {
         info = info.replace(/\+/g, ' ');
         const $item = $('<li class="list-group-item">').text(info);
-        $item.append('<span class="close-btn">&times</span>')
+        $item.append('<span class="close-btn">&#10006</span>')
 
         $list.append($item)
     }
@@ -44,10 +44,12 @@ $('#getPlaylistBtn').click(function(event) {
         let results = resp.results;
         console.log(results);
         if (results.length === 0) {
-            $('#musicQueryResults').append('<h3>No Results Found</h3>');
+            $('#musicQueryResults')
+                .append('<h3 class="header-small-margin">No results found.</h3>')
+                .append('<small>Try narrowing your search results.</small>');
         }
         $.each(results, function(key, value) {
-            $('#musicQueryResults').append('<p class="h5">' + value.artistName + ' -  ' + value.trackName + '</p>');
+            $('#musicQueryResults').append('<p class="h5">' + value.artistName + ' - ' + value.trackName + '</p>');
         });
     }).catch(function(err) {
         console.error('Error:', err);
