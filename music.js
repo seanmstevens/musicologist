@@ -5,9 +5,13 @@ function addSongFromField(event) {
 
   const info = $('#musicField').val().replace(/ /g, '+').toLowerCase();
 
-  musicInfo.push(info);
-  renderList();
-  $('#musicField').eq(0).val('');
+  if (!info) {
+      alert('Please enter some music interests');
+  } else {
+    musicInfo.push(info);
+    renderList();
+    $('#musicField').eq(0).val('');
+  }
 }
 
 $('#addButton').click(addSongFromField);
@@ -33,7 +37,7 @@ function renderList() {
 
 function generateResults(results) {
     const $container = $('#musicQueryResults');
-    const $table = $('<table></table>');
+    const $table = $('<table class="col"></table>');
     const $tableHead = $('<thead><tr><th>Song</th><th>Artist</th><th>Album</th><th>Year</th></tr></thead>');
     const $tableBody = $('<tbody></tbody>');
     const $row = $('<tr></tr>');
@@ -43,10 +47,10 @@ function generateResults(results) {
 
     $.each(results, function(key, value) {
         const $thisRow = $row.clone();
-        $thisRow.append('<td>' + value.trackName + '</td>')
+        $thisRow.append('<td class="song-column">' + value.trackName + '</td>')
             .append('<td>' + value.artistName + '</td>')
             .append('<td>' + value.collectionName + '</td>')
-            .append('<td>' + value.releaseDate + '</td>');
+            .append('<td>' + moment(value.releaseDate, moment.ISO_8601).format("YYYY") + '</td>');
         $tableBody.append($thisRow);
     });
 }

@@ -47,3 +47,8 @@ body {
 .header-small-margin {
     margin-bottom: 0.5rem;
 }
+
+.song-column {
+    position: relative;
+    width: 33%;
+}
