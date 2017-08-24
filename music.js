@@ -18,22 +18,41 @@ $('#musicField').keyup(function(event) {
 });
 
 function renderList() {
-    const $list = $('.info').eq(0);
+    const $list = $('#playlistParameters').eq(0);
 
     $list.empty();
 
-    for (let info of musicInfo) {
+    $.each(musicInfo, function(idx, info) {
         info = info.replace(/\+/g, ' ');
         const $item = $('<li class="list-group-item">').text(info);
-        $item.append('<span class="close-btn">&#10006</span>')
+        $item.append('<span class="close-btn">&#10006;</span>')
 
         $list.append($item)
-    }
+    });
+}
+
+function generateResults(results) {
+    const $container = $('#musicQueryResults');
+    const $table = $('<table></table>');
+    const $tableHead = $('<thead><tr><th>Song</th><th>Artist</th><th>Album</th><th>Year</th></tr></thead>');
+    const $tableBody = $('<tbody></tbody>');
+    const $row = $('<tr></tr>');
+
+    $table.append($tableHead).append($tableBody);
+    $container.append($table);
+
+    $.each(results, function(key, value) {
+        const $thisRow = $row.clone();
+        $thisRow.append('<td>' + value.trackName + '</td>')
+            .append('<td>' + value.artistName + '</td>')
+            .append('<td>' + value.collectionName + '</td>')
+            .append('<td>' + value.releaseDate + '</td>');
+        $tableBody.append($thisRow);
+    });
 }
 
 $('#getPlaylistBtn').click(function(event) {
     let searchTerm = musicInfo.join('+');
-    console.log(searchTerm);
 
     $('#musicQueryResults').empty();
 
@@ -42,15 +61,13 @@ $('#getPlaylistBtn').click(function(event) {
         dataType: 'json'
     }).then(function(resp) {
         let results = resp.results;
-        console.log(results);
         if (results.length === 0) {
             $('#musicQueryResults')
                 .append('<h3 class="header-small-margin">No results found.</h3>')
                 .append('<small>Try narrowing your search results.</small>');
+        } else {
+            generateResults(results);
         }
-        $.each(results, function(key, value) {
-            $('#musicQueryResults').append('<p class="h5">' + value.artistName + ' - ' + value.trackName + '</p>');
-        });
     }).catch(function(err) {
         console.error('Error:', err);
     });
